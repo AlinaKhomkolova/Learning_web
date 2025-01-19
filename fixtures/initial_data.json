@@ -1,0 +1,88 @@
+[
+    {
+        "model": "users.user",
+        "pk": 1,
+        "fields": {
+            "email": "user1@example.com",
+            "phone": "+1234567890",
+            "city": "City1",
+            "avatar": null,
+            "token": "token1",
+            "password": "pbkdf2_sha256$216000$JFO2xYsl1$somehashedpassword"
+        }
+    },
+    {
+        "model": "users.user",
+        "pk": 2,
+        "fields": {
+            "email": "user2@example.com",
+            "phone": "+0987654321",
+            "city": "City2",
+            "avatar": null,
+            "token": "token2",
+            "password": "pbkdf2_sha256$216000$JFO2xYsl2$anotherhashedpassword"
+        }
+    },
+    {
+        "model": "materials.course",
+        "pk": 1,
+        "fields": {
+            "name": "Python Basics",
+            "image": null,
+            "description": "Learn the basics of Python programming."
+        }
+    },
+    {
+        "model": "materials.course",
+        "pk": 2,
+        "fields": {
+            "name": "Advanced Django",
+            "image": null,
+            "description": "Master Django framework for web development."
+        }
+    },
+    {
+        "model": "materials.lesson",
+        "pk": 1,
+        "fields": {
+            "name": "Introduction to Python",
+            "image": null,
+            "description": "An introductory lesson on Python.",
+            "course": 1
+        }
+    },
+    {
+        "model": "materials.lesson",
+        "pk": 2,
+        "fields": {
+            "name": "Django Models",
+            "image": null,
+            "description": "Learn how to work with Django models.",
+            "course": 2
+        }
+    },
+    {
+        "model": "users.pay",
+        "pk": 1,
+        "fields": {
+            "user": 1,
+            "data_pay": "2025-01-01T10:00:00Z",
+            "pay_course": 1,
+            "pay_lesson": null,
+            "amount": "50.00",
+            "payment_method": "cash"
+        }
+    },
+    {
+        "model": "users.pay",
+        "pk": 2,
+        "fields": {
+            "user": 2,
+            "data_pay": "2025-01-05T15:30:00Z",
+            "pay_course": null,
+            "pay_lesson": 2,
+            "amount": "20.00",
+            "payment_method": "transfer"
+        }
+    }
+]
