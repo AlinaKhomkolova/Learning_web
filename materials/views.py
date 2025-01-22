@@ -8,7 +8,7 @@ class CourseViewSet(viewsets.ModelViewSet):
     queryset = Course.objects.all()
 
     def get_serializer_class(self):
-        if self.action == 'retrieve':# Для подробного отображения уроков
+        if self.action == 'retrieve':  # Для подробного отображения уроков
             return InfoLessonSerializer
         return CourseSerializer
 

@@ -79,7 +79,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'learning',
         'USER': 'postgres',
-        'PASSWORD': 120703,
+        'PASSWORD': '120703',
         'HOST': 'localhost',
         'PORT': '5432',
     }
@@ -127,3 +127,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 AUTH_USER_MODEL = 'users.User'
 
 NULLABLE = {'blank': True, 'null': True}
+
+REST_FRAMEWORK = {
+    'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend']
+}
