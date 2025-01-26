@@ -3,3 +3,4 @@ psycopg2-binary
 pillow
 djangorestframework
 django-filter
+djangorestframework-simplejwt
