@@ -1,4 +1,3 @@
-from django.core.serializers import serialize
 from django_filters import FilterSet, ModelChoiceFilter, CharFilter
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import viewsets, status
@@ -9,6 +8,7 @@ from rest_framework.views import APIView
 
 from materials.models import Course, Lesson
 from users.models import User, Pay
+
 from users.serializers import UserSerializer, PaySerializer
 
 
@@ -20,6 +20,9 @@ class UserViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         return User.objects.filter(id=self.request.user.id)
+
+
+
 
 
 # Настройка фильтров
@@ -58,6 +61,7 @@ class PayViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         # показывать только для текущего пользователя
         return Pay.objects.filter(user=self.request.user)
+
 
 class RegisterView(APIView):
     permission_classes = []
