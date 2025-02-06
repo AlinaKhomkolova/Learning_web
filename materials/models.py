@@ -18,8 +18,8 @@ class Course(models.Model):
     )
     description = models.TextField(
         verbose_name='Описание',
-        help_text='Добавьте подробное описание курса.'
-    )
+        help_text='Добавьте подробное описание курса.',
+        **NULLABLE)
     owner = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
@@ -49,7 +49,8 @@ class Lesson(models.Model):
     )
     description = models.TextField(
         verbose_name='Описание',
-        help_text='Добавьте описание урока.'
+        help_text='Добавьте описание урока.',
+        **NULLABLE
     )
     course = models.ForeignKey(
         Course,
