@@ -4,26 +4,28 @@ from rest_framework.permissions import BasePermission
 class IsOwnerOrStaff(BasePermission):
     """
     Разрешение, позволяющее доступ только владельцу объекта или администратору.
-
-    Логика:
-    - Если пользователь является администратором (is_staff), доступ разрешен.
-    - Если пользователь является владельцем объекта (например, урока или курса), доступ разрешен.
     """
 
     def has_permission(self, request, view):
         """
         Проверяет, имеет ли пользователь право доступа к объекту.
 
-        Аргументы:
-        - request: запрос пользователя.
-        - view: представление, с которым связаны текущие права доступа.
-
-        Возвращает:
-        - True, если пользователь является администратором или владельцем объекта.
-        - False, если это не так.
+        - Администратор всегда имеет доступ.
+        - Любой аутентифицированный пользователь может создавать (`POST`).
         """
+
         if request.user.is_staff:
             # Разрешаем доступ администратору
             return True
+
+        if request.method == 'POST':
+            return request.user and request.user.is_authenticated
+
+        return True  # Разрешаю доступ к списку объектов (GET /course/)
+
+    def has_objects_permission(self, request, obj):
+        """Проверяем доступ к определенному объекту"""
+        if request.user.is_staff:
+            return True  # Администратор имеет доступ
         # Разрешаем доступ владельцу объекта
-        return request.user == view.get_object().owner
+        return request.user == obj.owner
