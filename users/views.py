@@ -8,6 +8,7 @@ from rest_framework.views import APIView
 
 from materials.models import Course, Lesson
 from users.models import User, Pay
+from users.paginators import UsersPagination
 from users.serializers import UserSerializer, PaySerializer
 
 
@@ -23,6 +24,8 @@ class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
     # Ограничение, чтобы выводились только данный для текущего пользователя
     permission_classes = [IsAuthenticated]
+    # Пагинация данных
+    pagination_class = UsersPagination
 
     def get_queryset(self):
         """

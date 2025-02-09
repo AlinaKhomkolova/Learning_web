@@ -1,5 +1,5 @@
 from rest_framework import status  # Добавьте этот импорт
-from rest_framework.exceptions import NotFound
+from rest_framework.generics import get_object_or_404
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
@@ -11,12 +11,9 @@ class SubscriptionView(APIView):
 
     def post(self, request, course_id):
         user = request.user  # Получаем текущего пользователя
-        try:
-            course = Course.objects.get(id=course_id)  # Получаем курс по ID
-        except Course.DoesNotExist:
-            raise NotFound(detail="Course not found.")  # Если курса нет, возвращаем ошибку 404
-
-        # Проверка, существует ли подписка на данный курс
+        if not user.is_authenticated:
+            return Response({"error": "Authentication required"}, status=status.HTTP_401_UNAUTHORIZED)
+        course = get_object_or_404(Course, id=course_id)
         subscription_exists = Subscription.objects.filter(user=user, course=course).exists()
 
         if subscription_exists:

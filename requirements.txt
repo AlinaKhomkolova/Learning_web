@@ -4,3 +4,4 @@ pillow
 djangorestframework
 django-filter
 djangorestframework-simplejwt
+coverage
