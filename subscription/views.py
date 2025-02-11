@@ -8,6 +8,12 @@ from subscription.models import Subscription
 
 
 class SubscriptionView(APIView):
+    """
+    APIView для управления подписками пользователей на курсы.
+
+    Методы:
+        - post: Подписывает пользователя на курс или удаляет подписку, если она уже существует.
+    """
 
     def post(self, request, course_id):
         user = request.user  # Получаем текущего пользователя

@@ -38,7 +38,8 @@ INSTALLED_APPS = [
 
     'rest_framework', 'rest_framework_simplejwt',
 
-    'users', 'materials','subscription',
+    'users', 'materials', 'subscription',
+    'drf_yasg', 'corsheaders',
 ]
 
 MIDDLEWARE = [
@@ -49,6 +50,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+
+    'corsheaders.middleware.CorsMiddleware',
 ]
 
 ROOT_URLCONF = 'config.urls'
@@ -129,11 +132,18 @@ AUTH_USER_MODEL = 'users.User'
 NULLABLE = {'blank': True, 'null': True}
 
 REST_FRAMEWORK = {
+    # Фильтрация
     'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend'],
+
     # Настройки JWT-токенов
     'DEFAULT_AUTHENTICATION_CLASSES': ['rest_framework_simplejwt.authentication.JWTAuthentication'],
-    # Только для авторизированных пользователь
-    'DEFAULT_PERMISSION_CLASSES': ['rest_framework.permissions.AllowAny', ]
+
+    # для всех пользователь
+    'DEFAULT_PERMISSION_CLASSES': ['rest_framework.permissions.AllowAny', ],
+
+    # Пагинация
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
+    'PAGE_SIZE': 100
 }
 
 # Настройки срока действия токенов
@@ -141,3 +151,14 @@ SIMPLE_JWT = {
     'ACCESS_TOKEN_LIFETIME': timedelta(minutes=15),
     'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
 }
+
+# Frontend
+CORS_ALLOWED_ORIGINS = [
+    "https://read-only.example.com",
+    "https://read-and-write.example.com",
+]
+
+# Backend
+CSRF_TRUSTED_ORIGINS = [
+    "https://read-and-write.example.com",
+]

@@ -14,8 +14,10 @@ router.register(f'payments', PayViewSet, basename='payments')
 urlpatterns = [
                   # Регистрация маршрута для API, чтобы получить доступ к данным пользователя
                   path('api/', include(router.urls)),
-
+                  # Эндпоинт для регистрации пользователя
                   path('register/', RegisterView.as_view(), name='register'),
+                  # Эндпоинт для получения JWT-токена
                   path('token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
+                  # Эндпоинт для обновления JWT-токена
                   path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
               ] + router.urls
