@@ -7,6 +7,9 @@ User = get_user_model()
 
 
 class Subscription(models.Model):
+    """
+    Подписка пользователя на курс.
+    """
     user = models.ForeignKey(
         User,
         on_delete=models.CASCADE,

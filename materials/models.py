@@ -5,6 +5,7 @@ from config.settings import NULLABLE
 
 
 class Course(models.Model):
+    """Курсы"""
     name = models.CharField(
         max_length=150,
         verbose_name='Название',
@@ -20,6 +21,13 @@ class Course(models.Model):
         verbose_name='Описание',
         help_text='Добавьте подробное описание курса.',
         **NULLABLE)
+
+    amount = models.IntegerField(
+        default=1,
+        verbose_name='Цена',
+        help_text='Укажите цену в рублях',
+    )
+
     owner = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
@@ -36,6 +44,7 @@ class Course(models.Model):
 
 
 class Lesson(models.Model):
+    """Уроки"""
     name = models.CharField(
         max_length=150,
         verbose_name='Название',
@@ -64,6 +73,11 @@ class Lesson(models.Model):
         on_delete=models.CASCADE,
         verbose_name="Владелец",
         **NULLABLE
+    )
+    amount = models.IntegerField(
+        default=1,
+        verbose_name='Цена',
+        help_text='Укажите цену в рублях',
     )
 
     def __str__(self):

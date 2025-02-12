@@ -2,6 +2,7 @@ from rest_framework import serializers
 from rest_framework.fields import SerializerMethodField
 
 from materials.models import Course, Lesson
+from materials.services import convert_currencies
 from materials.validators import DescriptionValidator
 from subscription.models import Subscription
 
@@ -18,11 +19,12 @@ class LessonSerializer(serializers.ModelSerializer):
 
 
 class CourseSerializer(serializers.ModelSerializer):
-    is_subscribed = SerializerMethodField()
+    is_subscribed = serializers.SerializerMethodField()  # Поле вывода подписки
+    usd_price = serializers.SerializerMethodField()  # Поле вывода прайса в USD
 
     class Meta:
         model = Course
-        fields = ['id', 'name', 'description', 'is_subscribed']
+        fields = ['id', 'name', 'description', 'is_subscribed', 'amount','usd_price']
 
     def get_is_subscribed(self, obj):
         user = self.context.get('request').user  # Получаем пользователя из контекста
@@ -30,6 +32,9 @@ class CourseSerializer(serializers.ModelSerializer):
             return Subscription.objects.filter(user=user, course=obj).exists()  # Проверяем, есть ли подписка на курс
         return False
 
+    def get_usd_price(self, instance):
+        """Конвертация доллара в рубли"""
+        return convert_currencies(instance.amount)
 
 class InfoLessonSerializer(serializers.ModelSerializer):
     """

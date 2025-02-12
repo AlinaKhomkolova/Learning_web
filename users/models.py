@@ -1,5 +1,6 @@
 from django.contrib.auth.models import AbstractUser, BaseUserManager
 from django.db import models
+from django.db.models import URLField
 
 from config.settings import NULLABLE
 from materials.models import Course, Lesson
@@ -22,6 +23,9 @@ class CustomUserManager(BaseUserManager):
 
 
 class User(AbstractUser):
+    """
+    Пользователи, которые могут оплатить курс или урок.
+    """
     email = models.EmailField(
         unique=True,
         verbose_name='Почта'
@@ -66,7 +70,10 @@ class User(AbstractUser):
         verbose_name_plural = 'Пользователи'
 
 
-class Pay(models.Model):
+class PaymentDetails(models.Model):
+    """
+    Данные об оплате
+    """
     PAYMENT_METHOD_CHOICES = [
         ('cash', 'Наличные'),
         ('transfer', 'Перевод'),
@@ -116,9 +123,46 @@ class Pay(models.Model):
         help_text='Способ, с помощью которого была произведена оплата.'
     )
 
+    def save(self, *args, **kwargs):
+        """Автоматически устанавливает сумму платежа из курса или урока."""
+        if self.pay_course and not self.pay_lesson:
+            self.amount = self.pay_course.amount
+        elif self.pay_lesson and not self.pay_course:
+            self.amount = self.pay_lesson.amount
+        super().save(*args, **kwargs)
+
     def __str__(self):
         return f"Оплата {self.amount} за {self.pay_course or self.pay_lesson}"
 
     class Meta:
         verbose_name = 'Платеж'
         verbose_name_plural = 'Платежи'
+
+
+class Payment(models.Model):
+    """
+    Хранит данные об оплате Strip
+    """
+    payment_details = models.OneToOneField(
+        PaymentDetails, on_delete=models.CASCADE,
+        related_name='payment', verbose_name='Детали оплаты'
+    )
+    session_id = models.CharField(
+        max_length=255,
+        verbose_name='ID сессии',
+        help_text='Укажите id сессии',
+        **NULLABLE
+    )
+    link = URLField(
+        max_length=400,
+        verbose_name='Ссылка на оплату',
+        help_text='Укажите ссылку на оплату',
+        **NULLABLE
+    )
+
+    def __str__(self):
+        return f"Оплата {self.payment_details.amount}"
+
+    class Meta:
+        verbose_name = 'Оплата'
+        verbose_name_plural = 'Оплаты'

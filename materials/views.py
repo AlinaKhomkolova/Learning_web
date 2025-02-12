@@ -18,7 +18,7 @@ class CourseViewSet(viewsets.ModelViewSet):
     Методы:
     - list(),  retrieve(), create(), update(), destroy().
     """
-    queryset = Course.objects.all()
+    queryset = Course.objects.all().order_by('id')  # Сортировка по id
     permission_classes = [IsAuthenticated, IsOwnerOrStaff]
     pagination_class = MaterialsPagination
     lookup_field = 'id'

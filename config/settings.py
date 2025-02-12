@@ -9,12 +9,17 @@ https://docs.djangoproject.com/en/5.1/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.1/ref/settings/
 """
+import os
 from datetime import timedelta
 from pathlib import Path
+
+from PIL.TiffImagePlugin import STRIP_SIZE
+from dotenv import load_dotenv
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+load_dotenv(BASE_DIR / '.env')
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
@@ -80,9 +85,9 @@ WSGI_APPLICATION = 'config.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'learning',
-        'USER': 'postgres',
-        'PASSWORD': '120703',
+        'NAME': os.getenv('DATABASES_NAME'),
+        'USER': os.getenv('DATABASES_USER'),
+        'PASSWORD': os.getenv('DATABASES_PASSWORD'),
         'HOST': 'localhost',
         'PORT': '5432',
     }
@@ -115,7 +120,7 @@ TIME_ZONE = 'UTC'
 
 USE_I18N = True
 
-USE_TZ = True
+USE_TZ = False
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
@@ -162,3 +167,8 @@ CORS_ALLOWED_ORIGINS = [
 CSRF_TRUSTED_ORIGINS = [
     "https://read-and-write.example.com",
 ]
+
+CUR_API_URL = 'https://api.currencyapi.com/'
+CUR_API_KEY = 'sk_test_51QrFU62NEaiL6YkGr6CGQ1T2Ojt2taSEbRnpZpdKo0NILw4GCwdKnuL2QhuxULJeKwDJCINDQc8SEuFdv4SXDuDW00uSWgXdsp'
+
+STRIP_API_KEY = os.getenv('STRIP_API_KEY')
