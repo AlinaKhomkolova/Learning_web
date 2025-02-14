@@ -3,13 +3,13 @@ from rest_framework.routers import DefaultRouter
 from rest_framework_simplejwt.views import TokenRefreshView, TokenObtainPairView
 
 from users.apps import UsersConfig
-from users.views import UserViewSet, RegisterView, PaymentDetailsViewSet, PaymentCreateAPIView
+from users.views import UserViewSet, RegisterView, PaymentViewSet, PaymentCreateAPIView
 
 app_name = UsersConfig.name
 
 router = DefaultRouter()
 router.register(f'users', UserViewSet, basename='users')
-router.register(f'payments_details', PaymentDetailsViewSet, basename='payments_details')
+router.register(f'payments_details', PaymentViewSet, basename='payments_details')
 
 urlpatterns = [
                   # Регистрация маршрута для API, чтобы получить доступ к данным пользователя

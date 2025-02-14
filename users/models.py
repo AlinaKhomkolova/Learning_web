@@ -70,7 +70,7 @@ class User(AbstractUser):
         verbose_name_plural = 'Пользователи'
 
 
-class PaymentDetails(models.Model):
+class Payment(models.Model):
     """
     Данные об оплате
     """
@@ -112,7 +112,8 @@ class PaymentDetails(models.Model):
         max_digits=10,
         decimal_places=2,
         verbose_name='Сумма оплаты',
-        help_text='Сумма, которую заплатил пользователь.'
+        help_text='Сумма, которую заплатил пользователь.',
+        default=1
     )
 
     payment_method = models.CharField(
@@ -121,31 +122,6 @@ class PaymentDetails(models.Model):
         default='cash',
         verbose_name='Способ оплаты',
         help_text='Способ, с помощью которого была произведена оплата.'
-    )
-
-    def save(self, *args, **kwargs):
-        """Автоматически устанавливает сумму платежа из курса или урока."""
-        if self.pay_course and not self.pay_lesson:
-            self.amount = self.pay_course.amount
-        elif self.pay_lesson and not self.pay_course:
-            self.amount = self.pay_lesson.amount
-        super().save(*args, **kwargs)
-
-    def __str__(self):
-        return f"Оплата {self.amount} за {self.pay_course or self.pay_lesson}"
-
-    class Meta:
-        verbose_name = 'Платеж'
-        verbose_name_plural = 'Платежи'
-
-
-class Payment(models.Model):
-    """
-    Хранит данные об оплате Strip
-    """
-    payment_details = models.OneToOneField(
-        PaymentDetails, on_delete=models.CASCADE,
-        related_name='payment', verbose_name='Детали оплаты'
     )
     session_id = models.CharField(
         max_length=255,
@@ -161,8 +137,8 @@ class Payment(models.Model):
     )
 
     def __str__(self):
-        return f"Оплата {self.payment_details.amount}"
+        return f"Оплата {self.amount} за {self.pay_course or self.pay_lesson}"
 
     class Meta:
         verbose_name = 'Оплата'
-        verbose_name_plural = 'Оплаты'
+        verbose_name_plural = 'Оплата'

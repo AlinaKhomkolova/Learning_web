@@ -1,3 +1,4 @@
+from django.shortcuts import get_object_or_404
 from django_filters import FilterSet, ModelChoiceFilter, CharFilter
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import viewsets, status
@@ -8,10 +9,10 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from materials.models import Course, Lesson
-from users.models import User, PaymentDetails, Payment
+from users.models import User, Payment
 from users.paginators import UsersPagination
-from users.serializers import UserSerializer, PaymentDetailsSerializer
-from users.services import create_stripe_session, create_stripe_price, create_product
+from users.serializers import UserSerializer, PaymentSerializer
+from users.services import create_product, create_price, create_checkout_session
 
 
 class UserViewSet(viewsets.ModelViewSet):
@@ -39,9 +40,9 @@ class UserViewSet(viewsets.ModelViewSet):
 
 
 # Настройка фильтров
-class PaymentDetailsFilter(FilterSet):
+class PaymentFilter(FilterSet):
     """
-    Класс фильтра для модели `PaymentDetails`.
+    Класс фильтра для модели `Payment`.
 
     Фильтрует данные о платежах по курсу, уроку и способу оплаты.
     """
@@ -62,11 +63,11 @@ class PaymentDetailsFilter(FilterSet):
     )
 
     class Meta:
-        model = PaymentDetails
+        model = Payment
         fields = ['pay_course', 'pay_lesson', 'payment_method', ]
 
 
-class PaymentDetailsViewSet(viewsets.ModelViewSet):
+class PaymentViewSet(viewsets.ModelViewSet):
     """
     Представление для работы с платежами.
 
@@ -74,58 +75,78 @@ class PaymentDetailsViewSet(viewsets.ModelViewSet):
     данных о платежах. Также позволяет фильтровать платежи по курсу, уроку и способу оплаты.
     Сортировка осуществляется по дате оплаты по умолчанию.
     """
-    serializer_class = PaymentDetailsSerializer
+    serializer_class = PaymentSerializer
 
     # Настройка фильтрации и сортировки
     filter_backends = [DjangoFilterBackend, OrderingFilter]
-    filterset_class = PaymentDetailsFilter
+    filterset_class = PaymentFilter
     ordering_fields = ['data_pay']  # Поле для сортировки
     ordering = ['-data_pay']  # По умолчанию сортировка по дате оплаты(по убыванию)
     permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
         # показывать только для текущего пользователя
-        return PaymentDetails.objects.filter(user=self.request.user)
+        return Payment.objects.filter(user=self.request.user)
 
 
 class PaymentCreateAPIView(CreateAPIView):
+    serializer_class = PaymentSerializer
+    queryset = Payment.objects.all()
 
     def post(self, request, *args, **kwargs):
-        # Получаем данные о курсе или уроке из запроса
-        course_id = request.data.get('course_id')
-        course = Course.objects.get(id=course_id)
+        user = request.user
+        payment_method = request.data.get("payment_method")
+        course_id = request.data.get("pay_course")
+        lesson_id = request.data.get("pay_lesson")
 
-        # Создаем продукт в Stripe
-        try:
-            product = create_product(course.name, course.description)
-        except Exception as e:
-            return Response({"error": f"Ошибка при создании продукта: {str(e)}"}, status=status.HTTP_400_BAD_REQUEST)
+        # Проверяем, что именно оплачивается
+        if course_id:
+            product = get_object_or_404(Course, id=course_id)
+        elif lesson_id:
+            product = get_object_or_404(Lesson, id=lesson_id)
+        else:
+            return Response({"error": "Не указан курс или урок"}, status=400)
 
-        # Создаем цену в Stripe
-        try:
-            price = create_stripe_price(course.amount, product['id'])
-        except Exception as e:
-            return Response({"error": f"Ошибка при создании цены: {str(e)}"}, status=status.HTTP_400_BAD_REQUEST)
+        # Проверяем, что метод оплаты указан
+        if not payment_method:
+            return Response({"error": "Не указан метод оплаты"}, status=400)
 
-        # Создаем сессию на оплату
-        try:
-            session_id, checkout_url = create_stripe_session(price['id'], success_url, cancel_url)
-        except Exception as e:
-            return Response({"error": f"Ошибка при создании сессии: {str(e)}"}, status=status.HTTP_400_BAD_REQUEST)
+        # Создаём продукт и цену в Stripe
+        stripe_product_id = create_product(product.name, product.description)
+        stripe_price_id = create_price(product.amount, stripe_product_id)
 
-        # Создаем объект Payment в нашей системе
+        # Если не удалось создать прайс, возвращаем ошибку
+        if not stripe_price_id:
+            return Response({"error": "Ошибка при создании цены в Stripe"}, status=500)
+
+        # Создаем сессию оплаты
+        session_id, session_url = create_checkout_session(stripe_price_id)
+
+        # Если не удалось создать сессию, возвращаем ошибку
+        if not session_id:
+            return Response({"error": "Ошибка при создании сессии оплаты в Stripe"}, status=500)
+
+        # Сохраняем в БД
         payment = Payment.objects.create(
-            user=request.user,
-            course=course,
+            user=user,
+            pay_course=product if isinstance(product, Course) else None,
+            pay_lesson=product if isinstance(product, Lesson) else None,
+            amount=product.amount,
+            payment_method=payment_method,
             session_id=session_id,
-            checkout_url=checkout_url,
+            link=session_url
         )
 
-        # Возвращаем ссылку на оплату в ответе
-        return Response({
-            "payment_url": checkout_url,
-            "session_id": session_id
-        }, status=status.HTTP_201_CREATED)
+        return Response(
+            {
+                "id": payment.id,
+                "session_id": payment.session_id,
+                "link": payment.link,
+                "amount": payment.amount,
+                "user": payment.user.email,
+            },
+            status=201
+        )
 
 
 class RegisterView(APIView):
