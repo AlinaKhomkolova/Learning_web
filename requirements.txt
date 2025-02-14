@@ -10,4 +10,3 @@ django-cors-headers
 requests
 stripe
 python-dotenv
-forex-python
