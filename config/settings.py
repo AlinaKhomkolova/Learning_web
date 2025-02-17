@@ -13,7 +13,6 @@ import os
 from datetime import timedelta
 from pathlib import Path
 
-from PIL.TiffImagePlugin import STRIP_SIZE
 from dotenv import load_dotenv
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -45,6 +44,8 @@ INSTALLED_APPS = [
 
     'users', 'materials', 'subscription',
     'drf_yasg', 'corsheaders',
+
+    'django_celery_beat',
 ]
 
 MIDDLEWARE = [
@@ -172,3 +173,24 @@ CUR_API_URL = 'https://api.currencyapi.com/'
 CUR_API_KEY = 'sk_test_51QrFU62NEaiL6YkGr6CGQ1T2Ojt2taSEbRnpZpdKo0NILw4GCwdKnuL2QhuxULJeKwDJCINDQc8SEuFdv4SXDuDW00uSWgXdsp'
 
 STRIPE_API_KEY = os.getenv('STRIPE_API_KEY')
+
+# Настройки Redis (брокера)
+CELERY_BROKER_URL = 'redis://127.0.0.1:6379/0'
+# Хранение результатов задач
+CELERY_RESULT_BACKEND = 'redis://127.0.0.1:6379/0'
+
+# Часовой пояс Celery
+CELERY_TIMEZONE = 'UTC'
+
+# для email рассылки
+EMAIL_HOST = os.getenv('EMAIL_HOST')
+EMAIL_PORT = os.getenv('EMAIL_PORT')
+EMAIL_USE_TLS = os.getenv('EMAIL_USE_TLS') == 'True'
+EMAIL_USE_SSL = os.getenv('EMAIL_USE_SSL') == 'True'
+EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
+
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+
+# Настройки для отправки почты через SMTP
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'

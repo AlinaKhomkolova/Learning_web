@@ -16,7 +16,7 @@
     "model": "users.user",
     "pk": 2,
     "fields": {
-      "email": "user2@example.com",
+      "email": "khomkolovaalina@gmail.com",
       "password": "password123",
       "phone": "+7 900 234 56 78",
       "city": "Санкт-Петербург",

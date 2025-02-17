@@ -35,6 +35,8 @@ class Course(models.Model):
         **NULLABLE
     )
 
+    last_updated_course = models.DateTimeField(auto_now=True, verbose_name='дата Последнего обновление')
+
     def __str__(self):
         return f'{self.name}'
 
@@ -79,6 +81,8 @@ class Lesson(models.Model):
         verbose_name='Цена',
         help_text='Укажите цену в рублях',
     )
+
+    last_updated_lesson = models.DateTimeField(auto_now=True, verbose_name='дата Последнего обновление')
 
     def __str__(self):
         return f'{self.name}'

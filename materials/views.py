@@ -5,6 +5,7 @@ from materials.models import Course, Lesson
 from materials.paginators import MaterialsPagination
 from materials.permissions import IsOwnerOrStaff
 from materials.serializers import CourseSerializer, LessonSerializer, InfoLessonSerializer
+from materials.tasks import send_course_update_email
 
 
 class CourseViewSet(viewsets.ModelViewSet):
@@ -39,6 +40,17 @@ class CourseViewSet(viewsets.ModelViewSet):
         При создании курса автоматически назначает владельца текущего пользователя
         """
         serializer.save(owner=self.request.user)
+
+    def perform_update(self, serializer):
+        """
+        Переопределяем метод обновления, чтобы после обновления курса отправить email
+        подписанным пользователям
+        """
+        # Сохраняем изменения курса
+        course = serializer.save()
+
+        # Отправляем email всем подписанным на курс пользователям
+        send_course_update_email.delay(course.id)
 
 
 class LessonCreateAPIView(generics.CreateAPIView):
