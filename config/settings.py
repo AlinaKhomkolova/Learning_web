@@ -23,12 +23,12 @@ load_dotenv(BASE_DIR / '.env')
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-g36h41vxsb=*synx4sjuxg@2nto7@!thq#a$30jj0a2a$$cbiq'
+SECRET_KEY = os.getenv('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.getenv('DEBUG') == True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS' , '').split(',')
 
 # Application definition
 
@@ -86,10 +86,10 @@ WSGI_APPLICATION = 'config.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': os.getenv('DATABASES_NAME'),
-        'USER': os.getenv('DATABASES_USER'),
-        'PASSWORD': os.getenv('DATABASES_PASSWORD'),
-        'HOST': 'localhost',
+        'NAME': os.getenv('POSTGRES_DB'),
+        'USER': os.getenv('POSTGRES_USER'),
+        'PASSWORD': os.getenv('POSTGRES_PASSWORD'),
+        'HOST': 'db',
         'PORT': '5432',
     }
 }
@@ -159,25 +159,20 @@ SIMPLE_JWT = {
 }
 
 # Frontend
-CORS_ALLOWED_ORIGINS = [
-    "https://read-only.example.com",
-    "https://read-and-write.example.com",
-]
+CORS_ALLOWED_ORIGINS = os.getenv('CORS_ALLOWED_ORIGINS', '').split(',')
 
 # Backend
-CSRF_TRUSTED_ORIGINS = [
-    "https://read-and-write.example.com",
-]
+CSRF_TRUSTED_ORIGINS = os.getenv('CSRF_TRUSTED_ORIGINS', '').split(',')
 
 CUR_API_URL = 'https://api.currencyapi.com/'
-CUR_API_KEY = 'sk_test_51QrFU62NEaiL6YkGr6CGQ1T2Ojt2taSEbRnpZpdKo0NILw4GCwdKnuL2QhuxULJeKwDJCINDQc8SEuFdv4SXDuDW00uSWgXdsp'
+# CUR_API_KEY = 'sk_test_51QrFU62NEaiL6YkGr6CGQ1T2Ojt2taSEbRnpZpdKo0NILw4GCwdKnuL2QhuxULJeKwDJCINDQc8SEuFdv4SXDuDW00uSWgXdsp'
 
 STRIPE_API_KEY = os.getenv('STRIPE_API_KEY')
 
 # Настройки Redis (брокера)
-CELERY_BROKER_URL = 'redis://127.0.0.1:6379/0'
+CELERY_BROKER_URL = os.getenv('CELERY_BROKER_URL')
 # Хранение результатов задач
-CELERY_RESULT_BACKEND = 'redis://127.0.0.1:6379/0'
+CELERY_RESULT_BACKEND = os.getenv('CELERY_RESULT_BACKEND')
 
 # Часовой пояс Celery
 CELERY_TIMEZONE = 'UTC'
