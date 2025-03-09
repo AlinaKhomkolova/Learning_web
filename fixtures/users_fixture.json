@@ -1,0 +1,67 @@
+[
+  {
+    "model": "users.user",
+    "pk": 1,
+    "fields": {
+      "email": "user1@example.com",
+      "password": "password123",
+      "phone": "+7 900 123 45 67",
+      "city": "Москва",
+      "avatar": "images_users/user1_avatar.jpg",
+      "token": "token1234567890abcdef",
+      "is_active": true
+    }
+  },
+  {
+    "model": "users.user",
+    "pk": 2,
+    "fields": {
+      "email": "khomkolovaalina@gmail.com",
+      "password": "password123",
+      "phone": "+7 900 234 56 78",
+      "city": "Санкт-Петербург",
+      "avatar": "images_users/user2_avatar.jpg",
+      "token": "token234567890abcdef",
+      "is_active": true
+    }
+  },
+  {
+    "model": "users.user",
+    "pk": 3,
+    "fields": {
+      "email": "user3@example.com",
+      "password": "password123",
+      "phone": "+7 900 345 67 89",
+      "city": "Новосибирск",
+      "avatar": "images_users/user3_avatar.jpg",
+      "token": "token34567890abcdef",
+      "is_active": true
+    }
+  },
+  {
+    "model": "users.user",
+    "pk": 4,
+    "fields": {
+      "email": "user4@example.com",
+      "password": "password123",
+      "phone": "+7 900 456 78 90",
+      "city": "Екатеринбург",
+      "avatar": "images_users/user4_avatar.jpg",
+      "token": "token4567890abcdef",
+      "is_active": true
+    }
+  },
+  {
+    "model": "users.user",
+    "pk": 5,
+    "fields": {
+      "email": "user5@example.com",
+      "password": "password123",
+      "phone": "+7 900 567 89 01",
+      "city": "Казань",
+      "avatar": "images_users/user5_avatar.jpg",
+      "token": "token567890abcdef",
+      "is_active": true
+    }
+  }
+]

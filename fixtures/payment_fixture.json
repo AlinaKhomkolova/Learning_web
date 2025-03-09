@@ -1,0 +1,47 @@
+[
+  {
+    "model": "users.payment",
+    "pk": 1,
+    "fields": {
+      "payment_details": 1,
+      "session_id": "sess_1A2b3C4d5E6F7G",
+      "link": "https://checkout.stripe.com/pay/sess_1A2b3C4d5E6F7G"
+    }
+  },
+  {
+    "model": "users.payment",
+    "pk": 2,
+    "fields": {
+      "payment_details": 2,
+      "session_id": "sess_2B3c4D5e6F7G8H",
+      "link": "https://checkout.stripe.com/pay/sess_2B3c4D5e6F7G8H"
+    }
+  },
+  {
+    "model": "users.payment",
+    "pk": 3,
+    "fields": {
+      "payment_details": 3,
+      "session_id": "sess_3C4d5E6F7G8H9I",
+      "link": "https://checkout.stripe.com/pay/sess_3C4d5E6F7G8H9I"
+    }
+  },
+  {
+    "model": "users.payment",
+    "pk": 4,
+    "fields": {
+      "payment_details": 4,
+      "session_id": "sess_4D5e6F7G8H9I0J",
+      "link": "https://checkout.stripe.com/pay/sess_4D5e6F7G8H9I0J"
+    }
+  },
+  {
+    "model": "users.payment",
+    "pk": 5,
+    "fields": {
+      "payment_details": 5,
+      "session_id": "sess_5E6F7G8H9I0J1K",
+      "link": "https://checkout.stripe.com/pay/sess_5E6F7G8H9I0J1K"
+    }
+  }
+]

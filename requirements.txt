@@ -1,0 +1,15 @@
+django
+psycopg2-binary
+pillow
+djangorestframework
+django-filter
+djangorestframework-simplejwt
+coverage
+drf-yasg
+django-cors-headers
+requests
+stripe
+python-dotenv
+celery
+redis
+django-celery-beat

@@ -1,0 +1,79 @@
+[
+  {
+    "model": "materials.course",
+    "pk": 1,
+    "fields": {
+      "name": "Основы Python",
+      "image": "images_course/python_basics.jpg",
+      "description": "Курс для начинающих по программированию на Python.",
+      "amount": 2000,
+      "owner": 1
+    }
+  },
+  {
+    "model": "materials.course",
+    "pk": 2,
+    "fields": {
+      "name": "Веб-разработка с Django",
+      "image": "images_course/django_web.jpg",
+      "description": "Учитесь создавать сайты с помощью Django.",
+      "amount": 3500,
+      "owner": 2
+    }
+  },
+  {
+    "model": "materials.course",
+    "pk": 3,
+    "fields": {
+      "name": "Разработка на React",
+      "image": "images_course/react_dev.jpg",
+      "description": "Курс по созданию интерактивных веб-приложений с использованием React.",
+      "amount": 4500,
+      "owner": 3
+    }
+  },
+  {
+    "model": "materials.course",
+    "pk": 4,
+    "fields": {
+      "name": "Машинное обучение с Python",
+      "image": "images_course/machine_learning.jpg",
+      "description": "Основы машинного обучения на Python.",
+      "amount": 5500,
+      "owner": 1
+    }
+  },
+  {
+    "model": "materials.course",
+    "pk": 5,
+    "fields": {
+      "name": "Основы фронтенда",
+      "image": "images_course/frontend_basics.jpg",
+      "description": "Курс для начинающих по созданию веб-страниц с HTML, CSS и JavaScript.",
+      "amount": 1800,
+      "owner": 2
+    }
+  },
+  {
+    "model": "materials.course",
+    "pk": 6,
+    "fields": {
+      "name": "Искусственный интеллект и нейросети",
+      "image": "images_course/ai_neural_networks.jpg",
+      "description": "Познакомьтесь с основами искусственного интеллекта и нейросетей.",
+      "amount": 6000,
+      "owner": 3
+    }
+  },
+  {
+    "model": "materials.course",
+    "pk": 7,
+    "fields": {
+      "name": "Full Stack-разработка",
+      "image": "images_course/full_stack_dev.jpg",
+      "description": "Изучите как стать Full Stack разработчиком, создавая веб-приложения с нуля.",
+      "amount": 7000,
+      "owner": 1
+    }
+  }
+]

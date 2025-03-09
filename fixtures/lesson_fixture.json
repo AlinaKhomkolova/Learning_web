@@ -1,0 +1,86 @@
+[
+  {
+    "model": "materials.lesson",
+    "pk": 1,
+    "fields": {
+      "name": "Введение в Python",
+      "image": "images_course/intro_python.jpg",
+      "description": "Этот урок знакомит с основами Python: переменные, типы данных, операторы.",
+      "course": 1,
+      "owner": 1,
+      "amount": 1500
+    }
+  },
+  {
+    "model": "materials.lesson",
+    "pk": 2,
+    "fields": {
+      "name": "Установка и настройка Django",
+      "image": "images_course/setup_django.jpg",
+      "description": "Урок по установке Django и настройке проекта.",
+      "course": 2,
+      "owner": 2,
+      "amount": 2500
+    }
+  },
+  {
+    "model": "materials.lesson",
+    "pk": 3,
+    "fields": {
+      "name": "Основы React",
+      "image": "images_course/react_intro.jpg",
+      "description": "Изучение основ библиотеки React: компоненты, хуки, и рендеринг.",
+      "course": 3,
+      "owner": 3,
+      "amount": 3000
+    }
+  },
+  {
+    "model": "materials.lesson",
+    "pk": 4,
+    "fields": {
+      "name": "Основы машинного обучения",
+      "image": "images_course/ml_basics.jpg",
+      "description": "Урок, посвященный введению в машинное обучение и использование Python для анализа данных.",
+      "course": 4,
+      "owner": 1,
+      "amount": 3500
+    }
+  },
+  {
+    "model": "materials.lesson",
+    "pk": 5,
+    "fields": {
+      "name": "HTML и CSS для начинающих",
+      "image": "images_course/html_css_basics.jpg",
+      "description": "Урок, который охватывает основы HTML и CSS, создание простых веб-страниц.",
+      "course": 5,
+      "owner": 2,
+      "amount": 1200
+    }
+  },
+  {
+    "model": "materials.lesson",
+    "pk": 6,
+    "fields": {
+      "name": "Искусственный интеллект: Теория и практика",
+      "image": "images_course/ai_theory_practice.jpg",
+      "description": "Урок, который охватывает как теоретические, так и практические аспекты разработки ИИ.",
+      "course": 6,
+      "owner": 3,
+      "amount": 5000
+    }
+  },
+  {
+    "model": "materials.lesson",
+    "pk": 7,
+    "fields": {
+      "name": "Практика Full Stack разработки",
+      "image": "images_course/full_stack_practice.jpg",
+      "description": "Практическая часть курса Full Stack-разработки с реальными проектами.",
+      "course": 7,
+      "owner": 1,
+      "amount": 6000
+    }
+  }
+]
