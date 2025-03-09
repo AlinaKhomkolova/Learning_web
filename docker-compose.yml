@@ -5,40 +5,38 @@ services:
     build: .
     ports:
       - "80:80"
-    environment:
-      - SECRET_KEY=django-insecure-g36h41vxsb=*synx4sjuxg@2nto7@!thq#a$30jj0a2a$$cbiq
     volumes:
       - ./nginx.conf:/etc/nginx/nginx.conf
       - ./html:/usr/share/nginx/html
-#    depends_on:
-#      - web
-#
-#  web:
-#    build: .
-#    command: python3 manage.py runserver 0.0.0.0:8000
-#    volumes:
-#      - .:/code
-#      - static_volume:/code/static
-#    ports:
-#      - "8000:8000"
-#    depends_on:
-#      - db
-#      - redis
-#    env_file:
-#      - .env
-#
-#  db:
-#    image: postgres:16.0
-#    volumes:
-#      - postgres_data:/var/lib/postgresql/data
-#    env_file:
-#      - ./.env
-#
-#  redis:
-#    image: redis:6.2
-#    ports:
-#      - "6379:6379"
-#
+    depends_on:
+      - web
+
+  web:
+    build: .
+    command: python3 manage.py runserver 0.0.0.0:8000
+    volumes:
+      - .:/code
+      - static_volume:/code/static
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+      - redis
+    env_file:
+      - .env
+
+  db:
+    image: postgres:16.0
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    env_file:
+      - ./.env
+
+  redis:
+    image: redis:6.2
+    ports:
+      - "6379:6379"
+
 #  celery:
 #    build: .
 #    command: celery -A config worker
@@ -47,7 +45,7 @@ services:
 #      - redis
 #    env_file:
 #      - .env
-#
+
 #  celery_beat:
 #    build: .
 #    command: celery -A your_project_name beat
@@ -56,7 +54,7 @@ services:
 #      - redis
 #    env_file:
 #      - .env
-#
-#volumes:
-#  postgres_data:
-#  static_volume:
+
+volumes:
+  postgres_data:
+  static_volume:
