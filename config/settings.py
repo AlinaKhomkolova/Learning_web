@@ -159,11 +159,15 @@ SIMPLE_JWT = {
 }
 
 # Frontend
-CORS_ALLOWED_ORIGINS = os.getenv("CORS_ALLOWED_ORIGINS", "").split(",")
-
+CORS_ALLOWED_ORIGINS = [
+    'http://localhost:8000',
+    'http://127.0.0.1:8000',
+]
 # Backend
-CSRF_TRUSTED_ORIGINS = os.getenv("CSRF_TRUSTED_ORIGINS", "").split(",")
-
+CSRF_TRUSTED_ORIGINS = [
+    'http://localhost:8000',
+    'http://127.0.0.1:8000',
+]
 CUR_API_URL = 'https://api.currencyapi.com/'
 # CUR_API_KEY = 'sk_test_51QrFU62NEaiL6YkGr6CGQ1T2Ojt2taSEbRnpZpdKo0NILw4GCwdKnuL2QhuxULJeKwDJCINDQc8SEuFdv4SXDuDW00uSWgXdsp'
 
