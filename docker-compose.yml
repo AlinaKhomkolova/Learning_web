@@ -1,6 +1,5 @@
 version: "3.8"
 
-
 networks:
   default:
     name: my_django_network
@@ -20,7 +19,7 @@ services:
 
   web:
     build: .
-    command: bash -c "sleep 10 && python3 manage.py migrate"
+    command: ["./wait-for-it.sh", "db:5432", "--", "python3", "manage.py", "migrate"]
     volumes:
       - .:/code
       - static_volume:/code/static
