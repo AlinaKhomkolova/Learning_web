@@ -1,7 +1,7 @@
 version: "3.8"
 
 networks:
-  default:
+  my_django_network:
     name: my_django_network
 
 services:
@@ -48,6 +48,8 @@ services:
       - "6379:6379"
     networks:
       - my_django_network
+
+# Прокомментированные сервисы для Celery, если они понадобятся позже:
 #  celery:
 #    build: .
 #    command: celery -A config worker
