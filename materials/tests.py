@@ -1,3 +1,5 @@
+from unittest.mock import patch
+
 from django.contrib.auth import get_user_model
 from rest_framework import status
 from rest_framework.test import APITestCase
@@ -107,7 +109,8 @@ class CourseTestCase(APITestCase):
         print(response.json())
         self.assertEqual(response.json(), expected_data)
 
-    def test_update_course(self):
+    @patch('materials.views.send_course_update_email.delay')
+    def test_update_course(self, mock_send_email):
         """Тестирование изменения курса"""
         data = {
             'name': 'Test update',
@@ -120,6 +123,8 @@ class CourseTestCase(APITestCase):
         self.course.refresh_from_db()
         self.assertEqual(self.course.name, 'Test update')
         self.assertEqual(self.course.description, 'Test update desc')
+
+        mock_send_email.assert_called_once_with(self.course.id)
 
     def test_delete_course(self):
         """Тестирование удаления курса"""
