@@ -22,13 +22,14 @@ class CourseSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Course
-        fields = ['id', 'name', 'description', 'is_subscribed', 'amount',]
-
+        fields = ['id', 'name', 'description', 'is_subscribed', 'amount', ]
 
     def get_is_subscribed(self, obj):
-        user = self.context.get('request').user  # Получаем пользователя из контекста
+        # Получаем пользователя из контекста
+        user = self.context.get('request').user
         if user.is_authenticated:
-            return Subscription.objects.filter(user=user, course=obj).exists()  # Проверяем, есть ли подписка на курс
+            # Проверяем, есть ли подписка на курс
+            return Subscription.objects.filter(user=user, course=obj).exists()
         return False
 
 
@@ -37,9 +38,12 @@ class InfoLessonSerializer(serializers.ModelSerializer):
     Сериализатор для подробного отображения информации о курсе.
     Включает список уроков и их количество.
     """
-    lessons = LessonSerializer(many=True, read_only=True)  # Сериализует все уроки
-    number_of_lesson = SerializerMethodField()  # Поле для вывода количества уроков
-    is_subscribed = SerializerMethodField()  # Поле для подписки на курс
+    # Сериализует все уроки
+    lessons = LessonSerializer(many=True, read_only=True)
+    # Поле для вывода количества уроков
+    number_of_lesson = SerializerMethodField()
+    # Поле для подписки на курс
+    is_subscribed = SerializerMethodField()
 
     def get_number_of_lesson(self, course):
         """
