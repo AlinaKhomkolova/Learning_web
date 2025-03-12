@@ -19,11 +19,11 @@ class LessonSerializer(serializers.ModelSerializer):
 
 class CourseSerializer(serializers.ModelSerializer):
     is_subscribed = serializers.SerializerMethodField()  # Поле вывода подписки
-    usd_price = serializers.SerializerMethodField()  # Поле вывода прайса в USD
 
     class Meta:
         model = Course
-        fields = ['id', 'name', 'description', 'is_subscribed', 'amount', 'usd_price']
+        fields = ['id', 'name', 'description', 'is_subscribed', 'amount',]
+
 
     def get_is_subscribed(self, obj):
         user = self.context.get('request').user  # Получаем пользователя из контекста

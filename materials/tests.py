@@ -44,7 +44,7 @@ class CourseTestCase(APITestCase):
 
         data = {
             'name': 'Django course',
-            'description': 'Django laerning description',
+            'description': 'Django learning description',
         }
         response = self.client.post('/course/', data=data)
 
@@ -55,11 +55,10 @@ class CourseTestCase(APITestCase):
 
         self.assertEqual(response.json(),
                          {'id': 2, 'name': 'Django course',
-                          'description': 'Django laerning description',
-                          'is_subscribed': False},
-                         {'id': 3, 'name': 'Python course',
-                          'description': 'Ссылка на источник https://www.youtube.com/',
-                          'is_subscribed': True}
+                          'description': 'Django learning description',
+                          'is_subscribed': False,
+                          'amount': 1
+                          },
                          )
 
         self.assertTrue(
@@ -78,7 +77,7 @@ class CourseTestCase(APITestCase):
                 'name': self.course.name,
                 'description': self.course.description,
                 'is_subscribed': False,
-
+                'amount': self.course.amount
             }
         ]
         self.assertEqual(courses, expected_data)
@@ -95,14 +94,17 @@ class CourseTestCase(APITestCase):
             'description': self.course.description,
             'lessons': [
                 {'id': self.lesson1.id, 'name': self.lesson1.name, 'description': self.lesson1.description,
-                 'image': None, 'course': self.course.id, 'owner': None},
+                 'image': None, 'course': self.course.id, 'owner': None, 'amount': self.lesson1.amount,
+                 'last_updated_lesson': self.lesson1.last_updated_lesson.isoformat()
+                 },
                 {'id': self.lesson2.id, 'name': self.lesson2.name, 'description': self.lesson2.description,
-                 'image': None, 'course': self.course.id, 'owner': None},
+                 'image': None, 'course': self.course.id, 'owner': None, 'amount': self.lesson2.amount,
+                 'last_updated_lesson': self.lesson2.last_updated_lesson.isoformat()},
             ],
             'number_of_lesson': 2,
             'is_subscribed': False,
         }
-
+        print(response.json())
         self.assertEqual(response.json(), expected_data)
 
     def test_update_course(self):
