@@ -27,7 +27,6 @@ class CourseViewSet(viewsets.ModelViewSet):
     def get_serializer_class(self):
         """
         Возвращает нужный сериализатор в зависимости от типа запроса.
-        
         - 'retrieve' (Детальный просмотр) 'InfoLessonSerializer'
         - Остальные запросы 'CourseSerializer'
         """
@@ -56,10 +55,8 @@ class CourseViewSet(viewsets.ModelViewSet):
 class LessonCreateAPIView(generics.CreateAPIView):
     """
     API для создания уроков.
-    
     Доступ:
     - IsAuthenticated
-
     Метод:
     - create()
     """
@@ -132,7 +129,6 @@ class LessonUpdateAPIView(generics.UpdateAPIView):
 class LessonDestroyAPIView(generics.DestroyAPIView):
     """
     API для удаления урока.
-    
     Доступ:
     - Только владелец урока или администратор.
     Метод:
