@@ -117,7 +117,6 @@ class LessonUpdateAPIView(generics.UpdateAPIView):
     API для обновления урока.
     Доступ:
     - Только владелец урока или администратор.
-        
     Метод:
     - `update()`
     """
