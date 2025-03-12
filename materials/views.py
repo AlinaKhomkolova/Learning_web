@@ -102,12 +102,11 @@ class LessonListAPIView(generics.ListAPIView):
 
 
 class LessonRetrieveAPIView(generics.RetrieveAPIView):
-    """        
+    """
     API для получения одного урока.
-    
+
     Доступ:
     - Только владелец урока или администратор.
-        
     Метод:
     - `retrieve()`
     """
@@ -119,7 +118,6 @@ class LessonRetrieveAPIView(generics.RetrieveAPIView):
 class LessonUpdateAPIView(generics.UpdateAPIView):
     """
     API для обновления урока.
-    
     Доступ:
     - Только владелец урока или администратор.
         
@@ -137,7 +135,6 @@ class LessonDestroyAPIView(generics.DestroyAPIView):
     
     Доступ:
     - Только владелец урока или администратор.
-        
     Метод:
     - `destroy()`
     """

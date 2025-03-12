@@ -3,7 +3,6 @@ from celery import shared_task
 from django.conf import settings
 from django.core.mail import send_mail
 
-from config import settings
 from subscription.models import Subscription
 from .models import Course
 
