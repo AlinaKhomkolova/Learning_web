@@ -33,7 +33,7 @@ COPY . .
 #ENV CELERY_BROKER_URL="redis://localhost:6379/0"
 #ENV CELERY_RESULT_BACKEND="redis://localhost:6379/0"
 
-RUN mkdir -p app/staticfiles && chmod -R 755 /app/staticfiles
+RUN mkdir -p /app/staticfiles && chmod -R 755 /app/staticfiles
 
 # Открываем порт 8000 для взаимодействия с приложением
 EXPOSE 8000
