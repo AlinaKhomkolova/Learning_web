@@ -204,3 +204,4 @@ if 'test' in sys.argv:
         }
     }
 SECRET_KEY = os.getenv('DJANGO_SECRET_KEY')
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
