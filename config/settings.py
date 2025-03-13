@@ -203,3 +203,4 @@ if 'test' in sys.argv:
             'NAME': BASE_DIR / 'test_db.sqlite3'
         }
     }
+SECRET_KEY = os.getenv('SECRET_KEY')
