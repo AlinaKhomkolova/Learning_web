@@ -1,0 +1,7 @@
+.git
+.gitignore
+.env
+.venv
+__pycache__
+*.рус
+test_db.sqlite3

@@ -8,8 +8,8 @@ from users.views import UserViewSet, RegisterView, PaymentViewSet, PaymentCreate
 app_name = UsersConfig.name
 
 router = DefaultRouter()
-router.register(f'users', UserViewSet, basename='users')
-router.register(f'payments_details', PaymentViewSet, basename='payments_details')
+router.register(r'users', UserViewSet, basename='users')
+router.register(r'payments_details', PaymentViewSet, basename='payments_details')
 
 urlpatterns = [
                   # Регистрация маршрута для API, чтобы получить доступ к данным пользователя

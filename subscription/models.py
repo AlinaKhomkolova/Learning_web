@@ -25,7 +25,8 @@ class Subscription(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
-        unique_together = ('user', 'course') #Запрет на дублирование подписок
+        # Запрет на дублирование подписок
+        unique_together = ('user', 'course')
 
     def __str__(self):
         return f"{self.user.email} -> {self.course.name}"

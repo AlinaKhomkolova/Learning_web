@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 import os
+import sys
 from datetime import timedelta
 from pathlib import Path
 
@@ -23,12 +24,12 @@ load_dotenv(BASE_DIR / '.env')
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.getenv('SECRET_KEY')
+SECRET_KEY = os.getenv('SECRET_KEY', 'django-insecure-g36h41vxsb=*synx4sjuxg@2nto7@!thq#a$30jj0a2a$$cbiq')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.getenv('DEBUG') == '1'
 
-ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS' , '').split(',')
+ALLOWED_HOSTS = ['*']
 
 # Application definition
 
@@ -159,13 +160,18 @@ SIMPLE_JWT = {
 }
 
 # Frontend
-CORS_ALLOWED_ORIGINS = os.getenv('CORS_ALLOWED_ORIGINS', '').split(',')
-
+CORS_ALLOWED_ORIGINS = [
+    'http://localhost:8000',
+    'http://127.0.0.1:8000',
+]
 # Backend
-CSRF_TRUSTED_ORIGINS = os.getenv('CSRF_TRUSTED_ORIGINS', '').split(',')
-
+CSRF_TRUSTED_ORIGINS = [
+    'http://localhost:8000',
+    'http://127.0.0.1:8000',
+]
 CUR_API_URL = 'https://api.currencyapi.com/'
-# CUR_API_KEY = 'sk_test_51QrFU62NEaiL6YkGr6CGQ1T2Ojt2taSEbRnpZpdKo0NILw4GCwdKnuL2QhuxULJeKwDJCINDQc8SEuFdv4SXDuDW00uSWgXdsp'
+# CUR_API_KEY = (f''
+#                f'sk_test_51QrFU62NEaiL6YkGr6CGQ1T2Ojt2taSEbRnpZpdKo0NILw4GCwdKnuL2QhuxULJeKwDJCINDQc8SEuFdv4SXDuDW00uSWgXdsp')
 
 STRIPE_API_KEY = os.getenv('STRIPE_API_KEY')
 
@@ -189,3 +195,12 @@ DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
 # Настройки для отправки почты через SMTP
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+
+if 'test' in sys.argv:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'test_db.sqlite3'
+        }
+    }
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')

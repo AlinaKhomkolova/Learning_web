@@ -28,15 +28,15 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Копируем остальные файлы проекта в контейнер
 COPY . .
 
-ENV ALLOWED_HOSTS="*"
-ENV DEBUG="True"
-ENV CELERY_BROKER_URL="redis://localhost:6379/0"
-ENV CELERY_RESULT_BACKEND="redis://localhost:6379/0"
+#ENV ALLOWED_HOSTS="*"
+#ENV DEBUG="True"
+#ENV CELERY_BROKER_URL="redis://localhost:6379/0"
+#ENV CELERY_RESULT_BACKEND="redis://localhost:6379/0"
 
-RUN mkdir -p app/media
+RUN mkdir -p /app/staticfiles && chmod -R 755 /app/staticfiles
 
 # Открываем порт 8000 для взаимодействия с приложением
 EXPOSE 8000
 
 # Команда запуска приложения
-CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
+CMD ["sh", "-c", "python manage.py collectstatic --noinput && gunicorn config.wsgi:application -bind 0.0.0.0:8000"]

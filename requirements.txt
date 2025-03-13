@@ -13,3 +13,7 @@ python-dotenv
 celery
 redis
 django-celery-beat
+flake8
+pytest
+pytest-cov
+pytest-django
