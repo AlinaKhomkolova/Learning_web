@@ -26,6 +26,8 @@ services:
       - static_volume:/code/static
     ports:
       - "8000:8000"
+    environment:
+      - SECRET_KEY=${DJANGO_SECRET_KEY}
     depends_on:
       - db
       - redis
